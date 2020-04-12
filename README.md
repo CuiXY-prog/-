@@ -7,8 +7,8 @@
 <p>轻型远程控制软件</p>
 
 <h3>功能</h3>
-<p>远程 cmd</p>
-<p>文件上传下载</p>
+<p>1、远程 cmd</p>
+<p>2、文件上传下载</p>
 
 <h3>使用方法</h3>
 <p>1、使用 shellcode\GetShellcode.py 生成 shellcode</p>
