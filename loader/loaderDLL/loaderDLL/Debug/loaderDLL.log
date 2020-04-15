@@ -1,0 +1,6 @@
+﻿  pch.cpp
+  dllmain.cpp
+c:\users\cxy\desktop\file\3)loader\loaderdll\loaderdll\dllmain.cpp(26): warning C4553: “==”: 未使用表达式结果；是否打算使用“=”?
+c:\users\cxy\desktop\file\3)loader\loaderdll\loaderdll\dllmain.cpp(85): warning C4715: “releaseDll”: 不是所有的控件路径都返回值
+    正在创建库 C:\Users\Cxy\Desktop\file\3)loader\loaderDLL\Debug\loaderDLL.lib 和对象 C:\Users\Cxy\Desktop\file\3)loader\loaderDLL\Debug\loaderDLL.exp
+  loaderDLL.vcxproj -> C:\Users\Cxy\Desktop\file\3)loader\loaderDLL\Debug\loaderDLL.dll
