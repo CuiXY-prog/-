@@ -1,11 +1,9 @@
 #include "communication.h"
 
-
 sockaddr_in addr;                   // 初始化 ip 和端口
 WSADATA wsa = { 0 };                // 用于 WSAStartup()
 SOCKET mysocket = NULL;             // socket() 返回
 tcpSocketPool pool[50];             // 保存多个客户端的连接信息
-
 
 /*
 	用于初始化 sockaddr_in 并且给 tcpSocketPool 标明序号
@@ -19,7 +17,6 @@ tcpSocket::tcpSocket(const char *ip, int port)
 	for (int i = 0; i < 50; i++)                          // 为 tcpSocketPool 标明连接序号
 		pool[i].sNumber = i;
 }
-
 
 /*
 	清理 tcpSocket 申请的资源
@@ -63,7 +60,7 @@ bool tcpSocket::tcpAccept()
 	// 创建一个线程去接收客户端的连接
 	HANDLE hAccept  = ::CreateThread(NULL, 0, threadToAccept,  0, 0, 0);
 	WaitForSingleObject(hAccept, 0);
-	return false;
+	return true;
 }
 
 DWORD WINAPI threadToAccept(PVOID lpParam)
@@ -191,6 +188,12 @@ tcpSocketPool* connectionInfo()
 */
 void tcpSocket::threadToRefresh()
 {
+	static int paramId[50];
+	for (int i = 0; i < 50; i++)
+	{
+		paramId[i] = i;
+	}
+
 	// 创建线程测试客户端的连接
 	HANDLE threadHandles[50]; int index = 0;
 	for (int i = 0; i < 50; i++)
@@ -198,7 +201,7 @@ void tcpSocket::threadToRefresh()
 		if (pool[i].isConnection == true)
 		{
 			int param = i;
-			threadHandles[index] = ::CreateThread(NULL, 0, connectionHeartbeat, (LPVOID)&param, 0, 0);
+			threadHandles[index] = ::CreateThread(NULL, 0, connectionHeartbeat, (LPVOID)&paramId[i], 0, 0);
 			index += 1;
 		}
 	}

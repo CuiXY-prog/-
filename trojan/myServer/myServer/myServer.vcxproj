@@ -115,12 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="command.h" />
     <ClInclude Include="communication.h" />
     <ClInclude Include="file.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="whole.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="command.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="main.cpp" />
